@@ -729,6 +729,139 @@
       }
     }
 
+    /* ---------- INFO MODAL (důležité, co vědět před svatbou) ---------- */
+    .info-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background: rgba(43, 38, 32, 0.78);
+    }
+
+    .info-modal.open {
+      display: flex;
+    }
+
+    .info-modal-box {
+      position: relative;
+      background: var(--paper);
+      width: 100%;
+      max-width: 460px;
+      max-height: 85vh;
+      overflow-y: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 2.4rem 1.8rem 2rem;
+      text-align: center;
+    }
+
+    .info-modal-close {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.8rem;
+      background: none;
+      border: none;
+      color: var(--forest);
+      font-size: 1.8rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0.4rem 0.6rem;
+    }
+
+    .info-modal-close:hover {
+      color: var(--rust);
+    }
+
+    .info-modal-box h2 {
+      font-size: clamp(1.4rem, 4vw, 1.7rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .info-modal-list {
+      margin-top: 1.6rem;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .info-modal-list li {
+      list-style: none;
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+    }
+
+    .info-modal-list .icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+      color: var(--rust);
+    }
+
+    .info-modal-list p {
+      font-size: 0.92rem;
+    }
+
+    .info-modal-list li.important p {
+      font-weight: 500;
+    }
+
+    .info-fab-group {
+      position: fixed;
+      right: 1.2rem;
+      bottom: 1.2rem;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.6rem;
+    }
+
+    .info-fab {
+      background: var(--paper);
+      border: 1.5px solid var(--rust);
+      color: var(--rust);
+      border-radius: 999px;
+      padding: 0.6rem 1.1rem;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(43, 38, 32, 0.15);
+    }
+
+    .info-fab:hover {
+      background: var(--rust);
+      color: var(--paper);
+    }
+
+    .info-fab.filled {
+      background: var(--rust);
+      color: var(--paper);
+    }
+
+    .info-fab.filled:hover {
+      background: var(--forest-dark);
+      border-color: var(--forest-dark);
+    }
+
+    @media (max-width: 480px) {
+      .info-fab span {
+        display: none;
+      }
+
+      .info-fab {
+        padding: 0.65rem 0.7rem;
+      }
+    }
+
     /* ---------- FAQ ---------- */
     .faq-item {
       border-bottom: 1px solid var(--line);
@@ -840,9 +973,10 @@
       <span class="monogram">M &amp; J</span>
       <nav class="links">
         <a href="#pribeh">Náš příběh</a>
-        <a href="#program">Program</a>
-        <a href="#info">Informace</a>
         <a href="#galerie">Fotogalerie</a>
+        <a href="#program">Program</a>
+        <a href="#dulezite">Než dorazíte</a>
+        <a href="#info">Informace</a>
         <a href="#hudba">Hudba</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -981,6 +1115,72 @@
     </svg>
   </div>
 
+  <!-- ================= FOTOGALERIE ================= -->
+  <section id="galerie" class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Bude jich mnohem víc</span>
+        <h2>Fotogalerie</h2>
+        <p>Zatím se můžete kouknout na pár našich společných momentů.</p>
+      </div>
+
+      <div class="gallery-grid" id="gallery-grid">
+        <div class="photo-placeholder"><img src="images/galerie-4.jpg" alt="Miroslava a Jakub"
+            style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="photo-placeholder"><img src="images/galerie-6.jpg" alt="Miroslava a Jakub"
+            style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="photo-placeholder"><img src="images/galerie-7.jpg" alt="Miroslava a Jakub"
+            style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="photo-placeholder"><img src="images/galerie-1.jpg" alt="Miroslava a Jakub"
+            style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="photo-placeholder"><img src="images/maly-kuba-2.jpg" alt="Miroslava a Jakub"
+            style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="photo-placeholder"><img src="images/maly-kuba-1.jpg" alt="Miroslava a Jakub"
+            style="width:100%;height:100%;object-fit:cover;"></div>
+      </div>
+
+      <!-- Lightbox pro rozkliknutí fotek -->
+      <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Zavřít">&times;</button>
+        <button class="lightbox-prev" id="lightbox-prev" aria-label="Předchozí fotka">&#8249;</button>
+        <img id="lightbox-img" src="" alt="">
+        <button class="lightbox-next" id="lightbox-next" aria-label="Další fotka">&#8250;</button>
+      </div>
+
+      <!-- ========== ŽIVÁ GALERIE Z DROPBOXU (průběžně přidávané fotky ze svatby) ========== -->
+      <div style="margin-top:3.5rem;">
+        <div class="section-head" style="margin-bottom:1.8rem;">
+          <span class="eyebrow">Aktualizuje se automaticky</span>
+          <h2 style="font-size:clamp(1.4rem, 3.4vw, 1.9rem);">Průběžná galerie ze svatby</h2>
+        </div>
+
+        <p id="dbx-gallery-status" style="text-align:center; font-size:0.9rem; color:var(--forest);">Načítám
+          fotky…</p>
+
+        <div class="gallery-grid" id="dbx-gallery-grid" style="margin-top:1.4rem;"></div>
+
+        <div style="text-align:center; margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+          <a href="https://www.dropbox.com/scl/fo/oms7fzpskzsx8l46gu5gv/ANc9Vo2q_YewhoYdIhrtveU?rlkey=0n3oqf50k0u0wh3g1rkfdnm5q&st=haxtol6c&dl=0"
+            target="_blank" rel="noopener"
+            style="display:inline-block; padding:0.9rem 2.2rem; border:1.5px solid var(--rust); border-radius: var(--radius); color:var(--rust); text-decoration:none; font-family:'Cormorant Garamond', serif; font-size:1.1rem; letter-spacing:0.04em;">
+            📷 Otevřít celou galerii na Dropboxu
+          </a>
+          <a href="https://www.dropbox.com/request/ndw9dr156b7h6ly1blgs" target="_blank" rel="noopener"
+            style="display:inline-block; padding:0.9rem 2.2rem; border:1.5px solid var(--rust); border-radius: var(--radius); background:var(--rust); color:var(--paper); text-decoration:none; font-family:'Cormorant Garamond', serif; font-size:1.1rem; letter-spacing:0.04em;">
+            ⬆️ Nahrát fotku
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="signature-divider">
+    <svg viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 15 Q 50 0 95 15" stroke="#A2603C" stroke-width="1.3" fill="none" opacity="0.65" />
+      <circle cx="50" cy="6" r="2" fill="#C9A227" opacity="0.7" />
+    </svg>
+  </div>
+
   <!-- ================= PROGRAM DNE ================= -->
   <section id="program" class="alt" style="position:relative; overflow:hidden;">
     <svg class="botanical-corner tl" width="180" height="180" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -1063,6 +1263,71 @@
     </svg>
   </section>
 
+  <div class="signature-divider">
+    <svg viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 15 Q 50 30 95 15" stroke="#A2603C" stroke-width="1.3" fill="none" opacity="0.65" />
+      <circle cx="50" cy="23" r="2" fill="#C9A227" opacity="0.7" />
+    </svg>
+  </div>
+
+  <!-- ================= DŮLEŽITÉ, CO VĚDĚT PŘED SVATBOU ================= -->
+  <section id="dulezite" class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Prosíme, přečtěte si</span>
+        <h2>Důležité, co vědět před svatbou</h2>
+      </div>
+
+      <div class="cards">
+        <div class="card" style="border-color: var(--rust);">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M6 3a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h1" />
+            <rect x="9" y="3" width="9" height="18" rx="2" />
+            <path d="M12 18h.01" />
+            <path d="M3 3l18 18" />
+          </svg>
+          <h3>Bez telefonů a bez květin</h3>
+          <p>Během obřadu prosíme, mějte telefony schované — chceme si ten okamžik užít společně, bez displejů.
+            Zároveň bychom byli rádi, kdybyste od nás nekupovali květiny.</p>
+          <p class="note">Tohle je pro nás nejdůležitější, moc děkujeme za pochopení.</p>
+        </div>
+
+        <div class="card">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M8 4L4 7v3l3-1v11h10V9l3 1V7l-4-3-3 2-3-2z" stroke-linejoin="round" />
+          </svg>
+          <h3>Mikina na večer</h3>
+          <p>Klidně si přibalte mikinu nebo svetr — večer se venku ochladí, ať vám je hezky i po setmění.</p>
+        </div>
+
+        <div class="card">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M4 19h16v-2c0-1-1-2-3-2.5s-3-1-3-2.5V9" />
+            <path d="M4 19v-6c0-2 1-3 3-4l3-1.5c1 2 3 2 3 0" />
+          </svg>
+          <h3>Pohodlná obuv pro dámy</h3>
+          <p>Doporučujeme zvolit spíš pohodlnější obuv — část dne strávíme venku na trávě.</p>
+        </div>
+
+        <div class="card">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3.5 2" />
+          </svg>
+          <h3>Obřad začíná v 13:00</h3>
+          <p>Prosíme, přijďte s předstihem, ať se v klidu usadíte ještě před začátkem obřadu.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="signature-divider">
+    <svg viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 15 Q 50 0 95 15" stroke="#A2603C" stroke-width="1.3" fill="none" opacity="0.65" />
+      <circle cx="50" cy="6" r="2" fill="#C9A227" opacity="0.7" />
+    </svg>
+  </div>
+
   <!-- ================= PRAKTICKÉ INFORMACE ================= -->
   <section id="info">
     <div class="wrap">
@@ -1134,47 +1399,6 @@
     <svg viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M5 15 Q 50 30 95 15" stroke="#A2603C" stroke-width="1.3" fill="none" opacity="0.65" />
       <circle cx="50" cy="23" r="2" fill="#C9A227" opacity="0.7" />
-    </svg>
-  </div>
-
-  <!-- ================= FOTOGALERIE ================= -->
-  <section id="galerie" class="alt">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">Bude jich mnohem víc</span>
-        <h2>Fotogalerie</h2>
-        <p>Fotky ze svatby přidáme po svatbě — zatím se můžete kouknout na pár našich společných momentů.</p>
-      </div>
-
-      <div class="gallery-grid" id="gallery-grid">
-        <div class="photo-placeholder"><img src="images/galerie-4.jpg" alt="Miroslava a Jakub"
-            style="width:100%;height:100%;object-fit:cover;"></div>
-        <div class="photo-placeholder"><img src="images/galerie-6.jpg" alt="Miroslava a Jakub"
-            style="width:100%;height:100%;object-fit:cover;"></div>
-        <div class="photo-placeholder"><img src="images/galerie-7.jpg" alt="Miroslava a Jakub"
-            style="width:100%;height:100%;object-fit:cover;"></div>
-        <div class="photo-placeholder"><img src="images/galerie-1.jpg" alt="Miroslava a Jakub"
-            style="width:100%;height:100%;object-fit:cover;"></div>
-        <div class="photo-placeholder"><img src="images/maly-kuba-2.jpg" alt="Miroslava a Jakub"
-            style="width:100%;height:100%;object-fit:cover;"></div>
-        <div class="photo-placeholder"><img src="images/maly-kuba-1.jpg" alt="Miroslava a Jakub"
-            style="width:100%;height:100%;object-fit:cover;"></div>
-      </div>
-
-      <!-- Lightbox pro rozkliknutí fotek -->
-      <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" id="lightbox-close" aria-label="Zavřít">&times;</button>
-        <button class="lightbox-prev" id="lightbox-prev" aria-label="Předchozí fotka">&#8249;</button>
-        <img id="lightbox-img" src="" alt="">
-        <button class="lightbox-next" id="lightbox-next" aria-label="Další fotka">&#8250;</button>
-      </div>
-    </div>
-  </section>
-
-  <div class="signature-divider">
-    <svg viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 15 Q 50 0 95 15" stroke="#A2603C" stroke-width="1.3" fill="none" opacity="0.65" />
-      <circle cx="50" cy="6" r="2" fill="#C9A227" opacity="0.7" />
     </svg>
   </div>
 
@@ -1256,9 +1480,81 @@
     <p class="fine">Miroslava Pazourková &amp; Jakub Balon — budeme Balonovi</p>
   </footer>
 
+  <!-- ================= INFO MODAL (důležité, co vědět před svatbou) ================= -->
+  <div class="info-fab-group">
+    <a class="info-fab filled" href="https://www.dropbox.com/request/ndw9dr156b7h6ly1blgs" target="_blank"
+      rel="noopener">📷 <span>Nahrát fotky</span></a>
+    <button class="info-fab" id="info-fab" aria-haspopup="dialog">📌 <span>Než dorazíte</span></button>
+  </div>
+
+  <div class="info-modal" id="info-modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+    <div class="info-modal-box">
+      <button class="info-modal-close" id="info-modal-close" aria-label="Zavřít">&times;</button>
+      <span class="eyebrow">Prosíme, přečtěte si</span>
+      <h2 id="info-modal-title">Důležité, co vědět před svatbou</h2>
+
+      <ul class="info-modal-list">
+        <li class="important">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M6 3a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h1" />
+            <rect x="9" y="3" width="9" height="18" rx="2" />
+            <path d="M12 18h.01" />
+            <path d="M3 3l18 18" />
+          </svg>
+          <p>Nejdůležitější: nechceme květiny a během obřadu prosíme, mějte telefony schované. Děkujeme!</p>
+        </li>
+        <li>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M8 4L4 7v3l3-1v11h10V9l3 1V7l-4-3-3 2-3-2z" stroke-linejoin="round" />
+          </svg>
+          <p>Klidně si přibalte mikinu nebo svetr na večer.</p>
+        </li>
+        <li>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M4 19h16v-2c0-1-1-2-3-2.5s-3-1-3-2.5V9" />
+            <path d="M4 19v-6c0-2 1-3 3-4l3-1.5c1 2 3 2 3 0" />
+          </svg>
+          <p>Dámy ať zvolí pohodlnější obuv. 😊 část hostiny bude na trávě.</p>
+        </li>
+        <li>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3.5 2" />
+          </svg>
+          <p>Obřad začíná v 13:00 — prosíme, přijďte dříve.</p>
+        </li>
+        <li>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+          </svg>
+          <p>Mrkněte na <a href="https://www.instagram.com/ranchtyra/" target="_blank" rel="noopener"
+              style="color:var(--rust); text-decoration: underline;">Instagram Ranch Tyra</a>, ať víte, v jakém
+            prostředí se hostina bude odehrávat.</p>
+        </li>
+        <li>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M12 16V4" />
+            <path d="M7 9l5-5 5 5" />
+            <path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" />
+          </svg>
+          <p>Máte hezkou fotku ze svatby? <a href="https://www.dropbox.com/request/ndw9dr156b7h6ly1blgs"
+              target="_blank" rel="noopener" style="color:var(--rust); text-decoration: underline;">Nahrajte nám
+              ji</a> — objeví se rovnou v naší průběžné galerii na webu.</p>
+        </li>
+      </ul>
+
+      <button id="info-modal-ok"
+        style="display:block; margin:1.8rem auto 0; padding:0.8rem 2.4rem; border:1.5px solid var(--rust); border-radius: var(--radius); background:var(--rust); color:var(--paper); font-family:'Cormorant Garamond', serif; font-size:1.05rem; letter-spacing:0.04em; cursor:pointer;">
+        OK, rozumím
+      </button>
+    </div>
+  </div>
+
   <script>
     (function () {
-      var galleryImgs = Array.prototype.slice.call(document.querySelectorAll('#gallery-grid img'));
+      var galleryImgs = [];
       var lightbox = document.getElementById('lightbox');
       var lightboxImg = document.getElementById('lightbox-img');
       var closeBtn = document.getElementById('lightbox-close');
@@ -1283,9 +1579,20 @@
         lightboxImg.src = '';
       }
 
-      galleryImgs.forEach(function (img, index) {
-        img.addEventListener('click', function () { open(index); });
-      });
+      // Znovu posbírá fotky z #gallery-grid i #dbx-gallery-grid (živá Dropbox galerie
+      // je doplňuje asynchronně po načtení stránky) a naváže kliknutí na lightbox.
+      window.refreshGalleryLightbox = function () {
+        galleryImgs = Array.prototype.slice.call(
+          document.querySelectorAll('#gallery-grid img, #dbx-gallery-grid img')
+        );
+        galleryImgs.forEach(function (img, index) {
+          if (img.dataset.lightboxBound) return;
+          img.dataset.lightboxBound = '1';
+          img.addEventListener('click', function () { open(galleryImgs.indexOf(img)); });
+        });
+      };
+
+      window.refreshGalleryLightbox();
 
       closeBtn.addEventListener('click', close);
       prevBtn.addEventListener('click', function () { show(currentIndex - 1); });
@@ -1319,6 +1626,166 @@
           else show(currentIndex - 1);
         }
       }, { passive: true });
+    })();
+  </script>
+
+  <!-- ========== ŽIVÁ GALERIE Z DROPBOXU ==========
+       Načítá náhledy fotek přímo z Dropbox App Folder appky "svatba-galerie" přes Dropbox API.
+       Token má jen read-only přístup (files.metadata.read, files.content.read) k této jedné
+       vyhrazené podsložce Dropboxu, ne k celému účtu. Protože je stránka statická (bez serveru),
+       je token viditelný ve zdrojovém kódu — proto je záměrně takhle úzce omezený.
+       Nové fotky stačí nahrát do složky Apps/svatba-galerie v Dropboxu, na webu se objeví samy. -->
+  <script>
+    (function () {
+      var DBX_TOKEN = 'sl.u.AGpoSP5Hq10rsBBGoVcUN9s0uu3-hiZFdf2zJG6KNrk6wHZCpPfsQhPY8uGpSh-dTGHZAoplEcfMY71lDS4Ri8bX5fslGnG3VMszI6XgMw5hetFYmIImYVbdJnYX2B1wWCKOu3CGzTiLns3U24eXDGg4VTqacpvyboYbnTubMsGsbiKdggiG-KU1juBfOU6-lTd_FnxlgvbO-3-ube3cNOmmrJeSMR6f3FbVmQmU1GxiMyIS5w8wkM01BrgK8pgnkqqs1lqHtwkTuuyo6gEK-Wqj_H1aJOer7NbxKh8jG2L7simBc9HW5eypFepQmom7l__t6XmkUsu82laU7XN4Hv2qrNvkOWM61kH4iJ_kArVl2OP0ovKKQcqRc1RsYam7FQCAVZaF52xuomjdWn4TdevMKzU8Ubf0MiOkEuWG3e6CNmfa7KvqYmVx23rRU-5ylGyKSNTST_x1gm3Wil1cKfrKX7L2-Ura46j9J49zYymLmOnnrLlyyPOoK4aFIMdq3inPZPlWLakhUVrANSSmPEdisJMQKVsi8BesqQz8rjFm_7UIpHnAkt1_Ewi7cv6IxAcfRIH2nbMfS0IBrYf5qkZEWYAiblem-8d-ef26s3lTmDSzx3-uw5oCt-wxCKNmfuCvuzdiy_P4pwiRZAketiT-sBod3cauxdkM8fKYUoCGzlHUjIS2x8BlEKMDl3gJTr5zRCkxEFxaPhzq2xIH8OFZQvo_DIFXPkr9dyVxN9-pkSWp2wJ4OrV2dWR9-oLpiPX0SNUGEhXrmItMEXwWOqMg4dRrkBzv9Hvu_MwmzbBdySkClTwjs78c1xy6261CRrzfCyplgfCdSeon4t-b9yWjD9CwNgboLcFuNQ6yfWO2KSmwr0C9SPLa27PZNAJZALRDlWOg_3rgFAzBlSHdln-WcK4VjCFkr1bTWAyUnOva2Ft6ZACJi8rg99b8x_0XD2h9SVhxMGssoQFHTPhdrV7uIoA2syBtipKN6T8b6kk2UvuTOiRO5xpgZpYS3KybdBGCCNLsluI3nFSZDc7vlUuO69e5Lcd9KzcWs8DONzRz5AhjGE2oYkOlpNVbRtI5EkzyTUdbXRoRqUts5HlFHjhvf-SY7vD_dYW3YNDS5_Sowm4QwLE0x5uxXuXVEoVM1escFzzlw-IsKOlzZmdxqJcShQ5Z2eciD1Ar1yg1bzYyQjso1-evuG3D6NzQoc0bK1JRd5w4BNFyS1e92OD4_bsBhJzgheHmtrTPR_EUQRRKkUPxY2SKu19nMzzwPELqtiMLlOwOT3fGwU7dzL8XIfj_8kiGSOk1Wy8vc7Ph2onwiPRUtoFyQ2zYMmtrf8Ox0Eg';
+      var MAX_PHOTOS = 40;
+      var IMAGE_EXT = /\.(jpe?g|png|gif|bmp|tiff?|heic|heif|webp)$/i;
+
+      var grid = document.getElementById('dbx-gallery-grid');
+      var status = document.getElementById('dbx-gallery-status');
+
+      function listAllFiles(cursor, acc) {
+        var url = cursor
+          ? 'https://api.dropboxapi.com/2/files/list_folder/continue'
+          : 'https://api.dropboxapi.com/2/files/list_folder';
+        var body = cursor ? { cursor: cursor } : { path: '', recursive: false };
+
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + DBX_TOKEN,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('list_folder selhalo (' + res.status + ')');
+            return res.json();
+          })
+          .then(function (data) {
+            var files = acc.concat(data.entries.filter(function (e) {
+              return e['.tag'] === 'file' && IMAGE_EXT.test(e.name);
+            }));
+            if (data.has_more && files.length < MAX_PHOTOS * 3) {
+              return listAllFiles(data.cursor, files);
+            }
+            return files;
+          });
+      }
+
+      function getThumbnails(files) {
+        var chunks = [];
+        for (var i = 0; i < files.length; i += 25) {
+          chunks.push(files.slice(i, i + 25));
+        }
+
+        return Promise.all(chunks.map(function (chunk) {
+          return fetch('https://content.dropboxapi.com/2/files/get_thumbnail_batch', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + DBX_TOKEN,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              entries: chunk.map(function (f) {
+                return { path: f.path_lower, format: 'jpeg', size: 'w1024h768', mode: 'bestfit' };
+              })
+            })
+          })
+            .then(function (res) {
+              if (!res.ok) throw new Error('get_thumbnail_batch selhalo (' + res.status + ')');
+              return res.json();
+            })
+            .then(function (data) {
+              return data.entries
+                .map(function (entry, idx) {
+                  if (entry['.tag'] !== 'success') return null;
+                  return { name: chunk[idx].name, dataUrl: 'data:image/jpeg;base64,' + entry.thumbnail };
+                })
+                .filter(Boolean);
+            });
+        })).then(function (results) {
+          return results.reduce(function (all, r) { return all.concat(r); }, []);
+        });
+      }
+
+      listAllFiles(null, [])
+        .then(function (files) {
+          files.sort(function (a, b) {
+            return new Date(b.server_modified) - new Date(a.server_modified);
+          });
+          var latest = files.slice(0, MAX_PHOTOS);
+
+          if (latest.length === 0) {
+            status.textContent = 'Zatím tu žádné fotky nejsou — první přidáme, jakmile budou k dispozici.';
+            return;
+          }
+
+          return getThumbnails(latest).then(function (thumbs) {
+            if (thumbs.length === 0) {
+              status.textContent = 'Zatím tu žádné fotky nejsou — první přidáme, jakmile budou k dispozici.';
+              return;
+            }
+
+            thumbs.forEach(function (t) {
+              var div = document.createElement('div');
+              div.className = 'photo-placeholder';
+              var img = document.createElement('img');
+              img.src = t.dataUrl;
+              img.alt = 'Fotka ze svatby — Miroslava a Jakub';
+              img.style.width = '100%';
+              img.style.height = '100%';
+              img.style.objectFit = 'cover';
+              div.appendChild(img);
+              grid.appendChild(div);
+            });
+
+            status.textContent = thumbs.length + ' fotek — nejnovější nahoře.';
+            if (window.refreshGalleryLightbox) window.refreshGalleryLightbox();
+          });
+        })
+        .catch(function (err) {
+          status.textContent = 'Galerii se teď nepodařilo načíst — zkuste to prosím později nebo mrkněte přímo na Dropbox.';
+        });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var modal = document.getElementById('info-modal');
+      var fab = document.getElementById('info-fab');
+      var closeBtn = document.getElementById('info-modal-close');
+      var okBtn = document.getElementById('info-modal-ok');
+      var DISMISSED_KEY = 'svatba-dulezite-dismissed';
+
+      function openModal() {
+        modal.classList.add('open');
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+      }
+
+      function dismissForGood() {
+        closeModal();
+        localStorage.setItem(DISMISSED_KEY, '1');
+      }
+
+      fab.addEventListener('click', openModal);
+      closeBtn.addEventListener('click', closeModal);
+      okBtn.addEventListener('click', dismissForGood);
+
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+      });
+
+      if (!localStorage.getItem(DISMISSED_KEY)) {
+        setTimeout(openModal, 600);
+      }
     })();
   </script>
 
